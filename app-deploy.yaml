@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+  labels:
+    app: devops_property
+spec:
+  replicas: 2 # 2 pods
+  selector:
+    matchLabels:
+      app: devops_property # match below pod_label_name
+  template:
+    metadata:
+      name: app-pod # pod name
+      labels:
+        app: devops_property # pod_label_name
+    spec:
+      containers:
+        - name: app-containers
+          image: phokhaing/devops_property:TAG_VERSION
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service # service_name
+spec:
+  selector:
+    app: devops_property # must match pod_label_name of app-deploy
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30005 # nodePort rang is 30000-32767
