@@ -19,11 +19,10 @@ pipeline {
         stage('Docker build'){
             steps{
                 sh "sed -i \"s/TAG_VERSION/$BUILD_NUMBER/g\" docker-compose.yaml"
-                // sh "docker-compose build"
-                sh "docker-compose up -d"
+                sh "docker-compose build"
             }
         }
-        /*
+        
         stage('Push Image to Docker Hub'){
             steps{
                 echo "Push phokhaing/devops_property to docker hub"
@@ -76,7 +75,6 @@ pipeline {
                 }
             }
         }
-        */
     }
     
     /*--- Slack notifier ---*/
